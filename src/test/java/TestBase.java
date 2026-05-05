@@ -4,11 +4,13 @@ import org.junit.jupiter.api.BeforeAll;
 
 public class TestBase {
 
+    private static final String API_KEY = System.getenv("REQRES_API_KEY");
+
     @BeforeAll
     static void setUp() {
         RestAssured.baseURI = "https://reqres.in";
         RestAssured.basePath = "/api";
         RestAssured.requestSpecification = new RequestSpecBuilder()
-                .addHeader("x-api-key", "reqres_3b54ed9fda9845858b4d32e673518693").build();
+                .addHeader("x-api-key", API_KEY).build();
     }
 }
