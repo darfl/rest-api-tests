@@ -1,14 +1,35 @@
 plugins {
     id 'java-library'
+    id "io.freefair.lombok" version "9.5.0" //https://plugins.gradle.org/plugin/io.freefair.lombok
+    id 'io.qameta.allure' version '2.12.0'
 }
 
 repositories {
     mavenCentral()
 }
 
+def allureVersion = "2.27.0", //https://github.com/allure-framework/allure2 смотреть RELEASE VERSION
+    restAssuredVersion = "5.5.6"
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
 dependencies {
     testImplementation(
-            'io.rest-assured:rest-assured:5.5.6', //https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+            "io.rest-assured:rest-assured:$restAssuredVersion", //https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+            "io.rest-assured:json-schema-validator:$restAssuredVersion", //https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator
+            "io.qameta.allure:allure-rest-assured:$allureVersion", //https://mvnrepository.com/artifact/io.qameta.allure/allure-rest-assured
             'org.junit.jupiter:junit-jupiter:5.10.0', //https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/versions
             'org.slf4j:slf4j-simple:2.0.7', //SLF4J (Simple Logging Facade for Java)
     )
