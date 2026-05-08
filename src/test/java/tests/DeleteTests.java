@@ -1,9 +1,11 @@
+package tests;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class DeleteTests extends TestBase{
+public class DeleteTests extends TestBase {
 
     @Test
     @DisplayName("Удалить ресурс" )
