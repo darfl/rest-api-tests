@@ -15,6 +15,8 @@ import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static specs.LoginSpec.loginRequestSpec;
+import static specs.LoginSpec.loginResponseSpec;
 
 public class LoginTestsWithTestBase extends TestBase {
 
@@ -71,7 +73,7 @@ public class LoginTestsWithTestBase extends TestBase {
 
     @Test
     @DisplayName("Проверка успешной авторизации с валидным логином и паролем" )
-    void successfulLoginLombokCustomAllureTest() {
+    void successfulLoginLombokCustomAllureWithStepsTest() {
 
         LoginBodyLombokModel  authData = new LoginBodyLombokModel();
         authData.setEmail("eve.holt@reqres.in");
@@ -95,6 +97,28 @@ public class LoginTestsWithTestBase extends TestBase {
 
         step("Check response", ()->
             assertEquals("QpwL5tke4Pnpja7X4", response.getToken()));
+    }
+    @Test
+    @DisplayName("Проверка успешной авторизации с валидным логином и паролем" )
+    void successfulLoginLombokWithSpecsTest() {
+
+        LoginBodyLombokModel  authData = new LoginBodyLombokModel();
+        authData.setEmail("eve.holt@reqres.in");
+        authData.setPassword("cityslicka");
+
+        LoginResponseLombokModel response = step("Make request", ()->
+             given(loginRequestSpec)
+                .body(authData)
+
+            .when()
+                .post("/login")
+
+            .then()
+                .spec(loginResponseSpec)
+                .extract().as(LoginResponseLombokModel.class));
+
+        step("Check response", ()->
+                assertEquals("QpwL5tke4Pnpja7X4", response.getToken()));
     }
 
     @Test
