@@ -3,21 +3,24 @@ package tests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static TestData.TestData.UPDATE_USER_PATH;
 import static io.restassured.RestAssured.given;
+import static specs.ResponseSpecs.responseSpec;
 
 public class DeleteTests extends TestBase {
 
     @Test
-    @DisplayName("Удалить ресурс" )
+    @DisplayName("Проверка удаления пользователя" )
     void deleteResourcesTest() {
         given()
-                .log().all()
+                .log().uri()
+                .log().headers()
         .when()
-                .delete("/users/2")
+                .delete(UPDATE_USER_PATH)
 
         .then()
                 .log().status()
                 .log().body()
-                .statusCode(204);
+                .spec(responseSpec(204));
     }
 }

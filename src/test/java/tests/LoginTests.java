@@ -8,6 +8,7 @@ import models.pojo.LoginResponseModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static endpoints.Endpoints.LOGIN;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static specs.LoginSpec.loginRequestSpec;
 import static specs.LoginSpec.loginResponseSpec;
 
-public class LoginTestsWithTestBase extends TestBase {
+public class LoginTests extends TestBase {
 
     @Test
     @DisplayName("Проверка успешной авторизации с валидным логином и паролем" )
@@ -35,7 +36,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().body()
                 .log().headers()
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -61,7 +62,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().body()
                 .log().headers()
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -87,7 +88,7 @@ public class LoginTestsWithTestBase extends TestBase {
                  .log().body()
                  .log().headers()
         .when()
-                 .post("/login")
+                 .post(LOGIN)
 
         .then()
                   .log().status()
@@ -111,7 +112,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .body(authData)
 
             .when()
-                .post("/login")
+                .post(LOGIN)
 
             .then()
                 .spec(loginResponseSpec)
@@ -133,7 +134,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().body()
                 .log().headers()
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -153,7 +154,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().body()
                 .log().headers()
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -173,7 +174,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().all()
 
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -192,7 +193,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().all()
 
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()
@@ -212,7 +213,7 @@ public class LoginTestsWithTestBase extends TestBase {
                 .log().all()
 
         .when()
-                .post("/login")
+                .post(LOGIN)
 
         .then()
                 .log().status()

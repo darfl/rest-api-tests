@@ -4,12 +4,13 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static TestData.TestData.UPDATE_USER_PATH;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class UpdateUsersTests extends TestBase {
     @Test
-    @DisplayName("Обновить имя и должность пользователя")
+    @DisplayName("Проверка обновления имени и должности пользователя")
     void updateNameAndJobTest() {
         String name = "morpheus";
         String job = "zion resident";
@@ -24,7 +25,7 @@ public class UpdateUsersTests extends TestBase {
                 .contentType(ContentType.JSON)
                 .body(requestBody)
         .when()
-                .put("/users/2")
+                .put(UPDATE_USER_PATH)
         .then()
                 .log().status()
                 .log().body()
