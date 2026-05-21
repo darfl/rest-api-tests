@@ -16,7 +16,7 @@ public class UpdateUsersTests extends TestBase {
     @Test
     @DisplayName("Проверка обновления имени и должности пользователя")
     void updateNameAndJobTest() {
-        UpdateDataResponse response =
+    UpdateDataResponse response =
         step("Отправка запроса на обновление данных пользователя", () ->
             given(requestSpecification)
                 .body(updateDataRequest())

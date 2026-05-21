@@ -38,7 +38,7 @@ public class GetResourcesTests extends TestBase {
     @Test
     @DisplayName("Получить список цветов" )
     void getNumOfResourcesTest() {
-        ColourResponse response =
+    ColourResponse response =
                 step("Отправка запроса на получение списка цветов", () ->
         given(requestSpecification)
                 .get(UNKNOWN)
