@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.restassured.AllureRestAssured;
+import models.SuccessfulLoginResponse;
 import models.UnsuccessfulLoginResponse;
 import models.lombok.LoginBodyLombokModel;
 import models.lombok.LoginResponseLombokModel;
@@ -105,28 +106,6 @@ public class LoginTests extends TestBase {
             assertEquals("QpwL5tke4Pnpja7X4", response.getToken()));
     }*/
 
-    /*@Test
-    @DisplayName("Проверка успешной авторизации с валидным логином и паролем" )
-    void successfulLoginLombokWithSpecsTest() {
-
-        LoginBodyLombokModel  authData = new LoginBodyLombokModel();
-        authData.setEmail("eve.holt@reqres.in");
-        authData.setPassword("cityslicka");
-
-        LoginResponseLombokModel response = step("Make request", ()->
-             given(loginRequestSpec)
-                .body(authData)
-
-            .when()
-                .post(LOGIN)
-
-            .then()
-                .spec(loginResponseSpec)
-                .extract().as(LoginResponseLombokModel.class));
-
-        step("Check response", ()->
-                assertEquals("QpwL5tke4Pnpja7X4", response.getToken()));
-    }*/
     @Test
     @DisplayName("Проверка успешной авторизации с валидным логином и паролем" )
     void successfulLoginLombokWithSpecsTest() {
@@ -152,62 +131,48 @@ public class LoginTests extends TestBase {
     @Test
     @DisplayName("Проверка успешной авторизации с валидным логином и паролем c возвращением заполненного значения token" )
     void successfulAuthWithNotNullValueTokenTest() {
-        String authData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}";
-
-        given()
-                .body(authData)
-                .contentType(JSON)
-                .log().uri()
-                .log().body()
-                .log().headers()
-        .when()
-                .post(LOGIN)
-
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .body("token", notNullValue());
+        SuccessfulLoginResponse response =
+                step("Отправка запроса на авторизацию с валидным логинм и паролем", () ->
+                        given(requestSpecification)
+                                .body(sendLoginRequest())
+                        .when()
+                                .post(LOGIN)
+                        .then()
+                                .spec(responseSpec(200))
+                                .extract().as(SuccessfulLoginResponse.class));
+        step("Проверка ответа о возвращении заполненного значения token", () ->
+                assertThat(response.getToken(), is(notNullValue())));
     }
     @Test
     @DisplayName("Проверка наличия текста _user not found_ при неуспешной авторизации при введении невалидного пароля ")
     void userNotFoundInvalidPasswordTest() {
-        String authData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"abc\"}";
-
-        given()
-                .body(authData)
-                .contentType(JSON)
-                .log().uri()
-                .log().body()
-                .log().headers()
-        .when()
-                .post(LOGIN)
-
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(400)
-                .body("error", is(USER_NOT_FOUND));
+        UnsuccessfulLoginResponse response =
+                step("Отправка запроса на авторизацию с невалидным паролем", () ->
+                        given(requestSpecification)
+                                .body(sendLoginWithInvalidPasswordRequest())
+                        .when()
+                                .post(LOGIN)
+                        .then()
+                                .spec(responseSpec(400))
+                                .extract().as(UnsuccessfulLoginResponse.class));
+        step("Проверка ответа об отсутсвии найденного пользователя", () ->
+                assertThat(response.getError(), is(USER_NOT_FOUND)));
     }
 
     @Test
     @DisplayName("Проверка наличия текста _user not found_ при неуспешной авторизации при введении невалидного логина ")
     void userNotFoundInvalidLoginTest() {
-        String authData = "{\"email\": \"eveabc.holt@reqres.in\", \"password\": \"cityslicka\"}";
-
-        given()
-                .body(authData)
-                .contentType(JSON)
-                .log().all()
-
-        .when()
-                .post(LOGIN)
-
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(400)
-                .body("error", is(USER_NOT_FOUND));
+        UnsuccessfulLoginResponse response =
+                step("Отправка запроса на авторизацию с невалидным логином", () ->
+                        given(requestSpecification)
+                                .body(sendLoginWithInvalidEmailRequest())
+                        .when()
+                                .post(LOGIN)
+                        .then()
+                                .spec(responseSpec(400))
+                                .extract().as(UnsuccessfulLoginResponse.class));
+        step("Проверка ответа об отсутсвии найденного пользователя", () ->
+                assertThat(response.getError(), is(USER_NOT_FOUND)));
     }
     @Test
     @DisplayName("Проверка наличия текста _Missing password_ при неуспешной авторизации при отсутствии введенного пароля ")
@@ -231,7 +196,7 @@ public class LoginTests extends TestBase {
         UnsuccessfulLoginResponse response =
                 step("Отправка запроса на авторизацию без логина", () ->
                         given(requestSpecification)
-                                .body(sendPasswordWithoutLoginRequest())
+                                .body(sendPasswordWithoutEmailRequest())
                         .when()
                                 .post(LOGIN)
                         .then()
