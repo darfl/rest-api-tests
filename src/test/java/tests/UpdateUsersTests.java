@@ -1,37 +1,33 @@
 package tests;
 
-import io.restassured.http.ContentType;
+import models.UpdateDataResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static TestData.TestData.UPDATE_USER_PATH;
+import static TestData.TestData.*;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static specs.RequestSpecs.requestSpecification;
+import static specs.ResponseSpecs.responseSpec;
 
 public class UpdateUsersTests extends TestBase {
     @Test
     @DisplayName("Проверка обновления имени и должности пользователя")
     void updateNameAndJobTest() {
-        String name = "morpheus";
-        String job = "zion resident";
-        String requestBody = String.format("""
-            {
-                "name": "%s",
-                "job": "%s"
-            }
-            """, name, job);
-        given()
-                .log().uri()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-        .when()
+        UpdateDataResponse response =
+        step("Отправка запроса на обновление данных пользователя", () ->
+            given(requestSpecification)
+                .body(updateDataRequest())
+            .when()
                 .put(UPDATE_USER_PATH)
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .assertThat()
-                .body("name", equalTo(name))
-                .body("job", equalTo(job));
+            .then()
+                .spec(responseSpec(200))
+                .extract().as(UpdateDataResponse.class));
+        step("Проверка имени", () ->
+                assertThat(response.getName(), is(NAME)));
+        step("Проверка должности", () ->
+                assertThat(response.getJob(), is(JOB)));
     }
 }
