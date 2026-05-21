@@ -15,10 +15,13 @@ public class TestData {
             SUPPORT_URL = "https://benhowdle.im/first-cto-playbook?utm_source=reqres&utm_medium=json&utm_campaign=referral",
             NAME = "mike",
             JOB = "manager",
+            LOGIN_EMAIL = "eve.holt@reqres.in",
+            LOGIN_PASSWORD = "cityslicka",
+            USER_NOT_FOUND = "user not found",
             MISSING_PASSWORD_MESSAGE = "Missing password",
             MISSING_EMAIL_MESSAGE = "Missing email or username",
-            PASSWORD = "cityslicka",
-            USER_NOT_FOUND = "user not found";
+            INVALID_EMAIL = "eve.ho@reqres.in",
+            INVALID_PASSWORD = "city";
 
     public static UpdateDataRequest updateDataRequest() {
         UpdateDataRequest request = new UpdateDataRequest();
@@ -26,15 +29,36 @@ public class TestData {
         request.setName(NAME);
         return request;
     }
-    public static LoginRequest sendLoginWithoutPasswordRequest() {
+    public static LoginRequest sendLoginRequest() {
         LoginRequest request = new LoginRequest();
-        request.setEmail(EMAIL);
+        request.setEmail(LOGIN_EMAIL);
+        request.setPassword(LOGIN_PASSWORD);
+        return request;
+    }
+    public static LoginRequest sendLoginWithInvalidEmailRequest() {
+        LoginRequest request = new LoginRequest();
+        request.setEmail(INVALID_EMAIL);
+        request.setPassword(LOGIN_PASSWORD);
         return request;
     }
 
-    public static LoginRequest sendPasswordWithoutLoginRequest() {
+    public static LoginRequest sendLoginWithInvalidPasswordRequest() {
         LoginRequest request = new LoginRequest();
-        request.setPassword(PASSWORD);
+        request.setEmail(LOGIN_EMAIL);
+        request.setPassword(INVALID_PASSWORD);
+        return request;
+    }
+
+    public static LoginRequest sendLoginWithoutPasswordRequest() {
+        LoginRequest request = new LoginRequest();
+        request.setEmail(LOGIN_EMAIL);
+        return request;
+    }
+
+    public static LoginRequest sendPasswordWithoutEmailRequest() {
+        LoginRequest request = new LoginRequest();
+        request.setPassword(LOGIN_PASSWORD);
         return request;
     }
 }
+
