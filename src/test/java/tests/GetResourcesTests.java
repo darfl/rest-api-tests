@@ -51,17 +51,15 @@ public class GetResourcesTests extends TestBase {
     @Test
     @DisplayName("Получить количество цветов(размер массива) на странице")
     void getNumOfResourcesOnPageTest() {
-        int numberOfResourcesOnPage= 6;
-        given()
-                .log().uri()
-                .log().headers()
-        .when()
-                .get(UNKNOWN)
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .body("data", hasSize(numberOfResourcesOnPage));
+        ColourResponse response =
+                step("Отправка запроса на получение списка цветов", () ->
+            given(requestSpecification)
+                    .get(UNKNOWN)
+            .then()
+                    .spec(responseSpec(200))
+                    .extract().as(ColourResponse.class));
+        step("Проверка количества цветов на странице", () -> 
+                assertThat(response.getData(), hasSize(COLOURS_ON_PAGE)));
     }
 
     @Test

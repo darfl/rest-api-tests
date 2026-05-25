@@ -10,6 +10,7 @@ import static endpoints.Endpoints.USERS_PAGE;
 
 public class TestData {
     public static final List<String> EXPECTED_IDS = List.of("1", "2", "3", "4", "5", "6");
+    public static final int COLOURS_ON_PAGE = 6;
 
     public static final String
             UPDATE_USER_PATH = USERS + "2",
