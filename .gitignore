@@ -8,6 +8,7 @@ build/
 *.iws
 *.iml
 *.ipr
+/bin
 
 ### Gradle ###
 .gradle
