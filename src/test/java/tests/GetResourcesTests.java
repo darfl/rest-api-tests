@@ -1,12 +1,10 @@
 package tests;
 
-import io.restassured.response.Response;
+import models.Colour;
 import models.ColourResponse;
 import models.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static TestData.TestData.*;
 import static endpoints.Endpoints.UNKNOWN;
@@ -15,7 +13,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static specs.RequestSpecs.requestSpecification;
 import static specs.ResponseSpecs.responseSpec;
 
@@ -70,18 +67,14 @@ public class GetResourcesTests extends TestBase {
     @Test
     @DisplayName("Сравнить ожидаемый список Id с полученным после запроса")
     void compareExpectedListOfIdsAndActualTest() {
-        List<Integer> expectedId = List.of(1, 2, 3, 4, 5, 6);
-        Response response = given()
-                .log().uri()
-                .log().headers()
-        .when()
-                .get(UNKNOWN)
-        .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .extract().response();
-        List<Integer> actualId = response.jsonPath().getList("data.id");
-        assertEquals(expectedId, actualId);
+        ColourResponse response =
+                step("Отправка запроса на получение списка цветов", () ->
+            given(requestSpecification)
+                    .get(UNKNOWN)
+            .then()
+                    .spec(responseSpec(200))
+                    .extract().as(ColourResponse.class));
+        step("Проверка списка Id", () ->
+                assertThat(response.getData().stream().map(Colour::getId).toList(), is(EXPECTED_IDS)));
     }
 }

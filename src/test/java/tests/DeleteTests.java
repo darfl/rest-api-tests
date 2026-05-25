@@ -14,11 +14,11 @@ public class DeleteTests extends TestBase {
     @Test
     @DisplayName("Проверка удаления пользователя" )
     void deleteResourcesTest() {
-    step("Отправка запроса на удаление данных пользователя", () ->
-        given(requestSpecification)
-        .when()
-                .delete(UPDATE_USER_PATH)
-        .then()
-                .spec(responseSpec(204)));
+        step("Отправка запроса на удаление данных пользователя", () ->
+            given(requestSpecification)
+            .when()
+                    .delete(UPDATE_USER_PATH)
+            .then()
+                    .spec(responseSpec(204)));
     }
 }

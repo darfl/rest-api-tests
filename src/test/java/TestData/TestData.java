@@ -3,10 +3,14 @@ package TestData;
 import models.LoginRequest;
 import models.UpdateDataRequest;
 
+import java.util.List;
+
 import static endpoints.Endpoints.USERS;
 import static endpoints.Endpoints.USERS_PAGE;
 
 public class TestData {
+    public static final List<String> EXPECTED_IDS = List.of("1", "2", "3", "4", "5", "6");
+
     public static final String
             UPDATE_USER_PATH = USERS + "2",
             USERS_PAGE_PATH = USERS_PAGE + "2",
