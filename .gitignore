@@ -22,3 +22,6 @@ build/
 
 ### Allure ###
 allure-results
+
+### Finder ###
+.DS_Store
