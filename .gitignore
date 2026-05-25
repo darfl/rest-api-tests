@@ -14,3 +14,9 @@ build/
 
 ### Logs ###
 *.log
+
+### Claude Code ###
+.claude/settings.json
+
+### Allure ###
+allure-results
