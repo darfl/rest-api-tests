@@ -22,5 +22,4 @@ public class ResponseSpecs {
             status415 = responseSpec(415),
             status404 = responseSpec(404),
             status400 = responseSpec(400);
-
 }
