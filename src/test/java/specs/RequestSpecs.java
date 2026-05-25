@@ -16,6 +16,3 @@ public class RequestSpecs {
             .log().headers()
             .contentType(JSON);
 }
-
-//RestAssured.requestSpecification = new RequestSpecBuilder()
-//.addHeader("x-api-key", API_KEY).build();
