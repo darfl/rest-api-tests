@@ -11,7 +11,6 @@
 | RestAssured 5.5.6 | HTTP-клиент |
 | Allure 2.27 | Отчёты |
 | Lombok (freefair plugin 9.5) | POJO-модели |
-| SLF4J Simple 2.0.7 | Логирование |
 | Gradle (wrapper) | Сборка |
 
 ## Быстрый старт
